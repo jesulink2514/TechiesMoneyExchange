@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TechiesMoneyExchange.RegisterOperationPage"
+             Title="Register your operation"
+             xmlns:ct="clr-namespace:Xamarin.CommunityToolkit.Effects.Semantic;assembly=Xamarin.CommunityToolkit.MauiCompat"
+             BackgroundColor="White" Appearing="Page_Appearing">
+    <ScrollView>
+        <Grid RowSpacing="25" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+              Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
+
+
+            <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="Auto,Auto" HorizontalOptions="FillAndExpand">
+                <Label Text="You send" FontSize="18" VerticalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           HorizontalOptions="FillAndExpand"/>
+                <Label Grid.Row="1" Text="S/. 200.00" GridLayout.Column="0" FontSize="20"
+                           VerticalOptions="Center" HorizontalTextAlignment="Center"
+                           FontAttributes="Bold" HorizontalOptions="FillAndExpand"/>
+
+                <Frame GridLayout.Column="1" CornerRadius="25" WidthRequest="50" HeightRequest="50"
+                           
+                            Background="{StaticResource PrimaryColor}">
+                    <Image Source="sync.png" HeightRequest="35" WidthRequest="35"
+                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Frame>
+
+                <Label Text="You recieve" FontSize="18" VerticalOptions="Center" GridLayout.Column="2"
+                           HorizontalTextAlignment="Center"
+                           HorizontalOptions="FillAndExpand"/>
+                <Label Grid.Row="1" Text="$ 51.55" GridLayout.Column="2"
+                           FontSize="20"  HorizontalTextAlignment="Center" FontAttributes="Bold"
+                           VerticalOptions="Center" HorizontalOptions="FillAndExpand"/>
+            </Grid>
+
+            <Label GridLayout.Row="1" HorizontalOptions="Center"
+                   Text="Exchange Rate S/. 3.8800"/>
+
+            <Label GridLayout.Row="2"
+                   Text="What account did you use to send us your money?"
+                   FontSize="15" HorizontalTextAlignment="Center"/>
+
+            <Grid GridLayout.Row="3" RowDefinitions="Auto,Auto" Padding="15" ColumnDefinitions="2*, 1*">
+                <RoundRectangle Fill="#cdc3ff" GridLayout.RowSpan="2" Margin="-15"
+                                CornerRadius="20" GridLayout.ColumnSpan="2"/>
+                
+                <HorizontalStackLayout Spacing="15">
+                    <Label Text="A Bank"/>
+                    <Label Text=" - "/>
+                    <Label Text="PEN"/>
+                </HorizontalStackLayout>
+                <Label Text="008457451154545" GridLayout.Row="1" GridLayout.Column="0"
+                       TextColor="Black"/>
+
+                <Label Text="Cambiar" FontAttributes="Bold" FontSize="14"
+                       TextColor="Blue" GridLayout.Column="1" VerticalOptions="CenterAndExpand"
+                       GridLayout.RowSpan="2">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+
+            <Label GridLayout.Row="4"
+                   Text="Where do you want to recieve your money?"
+                   FontSize="15" HorizontalTextAlignment="Center"/>
+
+            <Grid GridLayout.Row="5" RowDefinitions="Auto,Auto" Padding="15" ColumnDefinitions="2*, 1*">
+                <RoundRectangle Fill="#cdc3ff" GridLayout.RowSpan="2" Margin="-15"
+                                CornerRadius="20" GridLayout.ColumnSpan="2"/>
+
+                <HorizontalStackLayout Spacing="15">
+                    <Label Text="B Bank"/>
+                    <Label Text=" - "/>
+                    <Label Text="USD"/>
+                </HorizontalStackLayout>
+                <Label Text="001234567800445" GridLayout.Row="1" GridLayout.Column="0"
+                       TextColor="Black"/>
+
+                <Label Text="Cambiar" FontAttributes="Bold" FontSize="14"
+                       TextColor="Blue" GridLayout.Column="1" VerticalOptions="CenterAndExpand"
+                       GridLayout.RowSpan="2">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+
+            <Button GridLayout.Row="6" Text="Register your operation"
+                    ImageSource="start.png" 
+                    Clicked="Register_Clicked"/>
+
+            <Button GridLayout.Row="7" Text="Go back"
+                    Background="Orange" />
+
+        </Grid>
+    </ScrollView>
+</ContentPage>

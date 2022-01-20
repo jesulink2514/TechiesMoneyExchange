@@ -1,0 +1,52 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TechiesMoneyExchange.Views.ExchangePage"
+             BackgroundColor="{DynamicResource SecondaryColor}">
+
+    <ScrollView>
+        <Grid RowSpacing="25" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+              Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
+
+            <Label TextColor="Black" Text="Exchange rate will be updated in: 04:54min">
+            </Label>
+
+            <Grid GridLayout.Row="1" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
+                <Label Text="We buy USD" GridLayout.Row="0" HorizontalTextAlignment="Center"/>
+                <Label Text="S/. 3.8520" FontAttributes="Bold"
+                       GridLayout.Row="1" HorizontalTextAlignment="Center"/>
+
+                <Label Text="We sell USD" GridLayout.Column="1" HorizontalTextAlignment="Center"/>
+                <Label Text="S/. 3.8800" FontAttributes="Bold"
+                       GridLayout.Column="1" GridLayout.Row="1" HorizontalTextAlignment="Center"/>
+            </Grid>
+
+            <Frame GridLayout.Row="2" CornerRadius="20">
+                <Grid ColumnDefinitions="Auto,*" HeightRequest="50" ColumnSpacing="25" HorizontalOptions="Fill">
+                    <Label Text="S/." FontSize="40" VerticalOptions="Center"/>
+                    <Entry Grid.Row="2" Text="200" Keyboard="Numeric" GridLayout.Column="1" FontSize="16"
+                           VerticalOptions="Center" WidthRequest="200"/>
+                </Grid>
+            </Frame>
+            <Frame GridLayout.Row="3" CornerRadius="20">
+                <Grid ColumnDefinitions="Auto,*" HeightRequest="50" ColumnSpacing="25"  HorizontalOptions="Fill">
+                    <Label Text="$" FontSize="40" VerticalOptions="Center"/>
+                    <Entry Grid.Row="2" Text="51.55" Keyboard="Numeric" GridLayout.Column="1"
+                           FontSize="16"  WidthRequest="200"
+                           VerticalOptions="Center" HorizontalOptions="FillAndExpand"/>
+                </Grid>
+            </Frame>
+            <Button HorizontalOptions="Start" GridLayout.Row="3" VerticalOptions="Start" Margin="60,0,0,0" TranslationY="-35"
+                    ImageSource="sync02.png" HeightRequest="50" WidthRequest="50" CornerRadius="35"/>
+            
+
+            <Grid GridLayout.Row="4" ColumnDefinitions="*,Auto">
+                <Entry Placeholder="Have a coupon? Enter it here" HorizontalOptions="FillAndExpand"/>
+                <Button Text="Apply" GridLayout.Column="1"/>
+            </Grid>
+
+            <Button GridLayout.Row="5" Text="Start the operation"
+                    ImageSource="start.png" Clicked="Start_Clicked"/>
+
+        </Grid>
+    </ScrollView>
+</ContentPage>
