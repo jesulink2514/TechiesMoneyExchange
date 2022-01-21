@@ -2,7 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:conv="clr-namespace:TechiesMoneyExchange.Core.Converter;assembly=TechiesMoneyExchange.Core"
              x:Class="TechiesMoneyExchange.Views.ExchangePage"             
-             BackgroundColor="{DynamicResource SecondaryColor}">
+             BackgroundColor="{DynamicResource SecondaryColor}"
+             Title="Start your exchange operation!">
 
     <ContentPage.Resources>
         <conv:StringFormatConverter x:Key="WebuyConverter" 
@@ -13,7 +14,7 @@
     
     <ScrollView>
         <Grid RowSpacing="25" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
-              Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
+              Padding="{OnPlatform iOS='30,60,30,30', Default='30'}" IsEnabled="False">
 
             <Label TextColor="Black" Text="Exchange rate will be updated in: 04:54min">
             </Label>
@@ -38,25 +39,32 @@
                 </HorizontalStackLayout>
             </Grid>
 
-            <Frame GridLayout.Row="2" CornerRadius="20">
-                <Grid ColumnDefinitions="Auto,*" HeightRequest="50" ColumnSpacing="25" HorizontalOptions="Fill">
-                    <Label Text="{Binding SendingCurrency.Symbol}" FontSize="40" VerticalOptions="Center"/>
+            <Grid GridLayout.Row="2">
+                <RoundRectangle CornerRadius="20" Fill="LightGray"/>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="25" HorizontalOptions="Fill" Padding="10">
+                    <Label Text="{Binding SendingCurrency.Symbol}" FontSize="40" VerticalOptions="Center" WidthRequest="50"
+                           HorizontalTextAlignment="Center"/>
                     <Entry Grid.Row="2" Text="{Binding AmountYouPay}" Keyboard="Numeric" GridLayout.Column="1" FontSize="16"
                            VerticalOptions="Center" WidthRequest="200"
                            TextColor="Black"/>
                 </Grid>
-            </Frame>
-            <Frame GridLayout.Row="3" CornerRadius="20">
-                <Grid ColumnDefinitions="Auto,*" HeightRequest="50" ColumnSpacing="25"  HorizontalOptions="Fill">
-                    <Label Text="{Binding RecievingCurrency.Symbol}" FontSize="40" VerticalOptions="Center"/>
+            </Grid>
+            
+            <Grid GridLayout.Row="3">
+                <RoundRectangle CornerRadius="20" Fill="LightGray"/>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="25" HorizontalOptions="Fill" Padding="10">
+                    <Label Text="{Binding RecievingCurrency.Symbol}" FontSize="40" VerticalOptions="Center" WidthRequest="50"
+                           HorizontalTextAlignment="Center"/>
                     <Entry Grid.Row="2" Text="{Binding AmountYouRecieve}" Keyboard="Numeric" GridLayout.Column="1"
                            FontSize="16"  WidthRequest="200" TextColor="Black"
                            VerticalOptions="Center" HorizontalOptions="FillAndExpand"/>
                 </Grid>
-            </Frame>
+            </Grid>
             <Button HorizontalOptions="Start" GridLayout.Row="3" VerticalOptions="Start" Margin="60,0,0,0" TranslationY="-35"
                     ImageSource="sync02.png" HeightRequest="50" WidthRequest="50" CornerRadius="35"
-                    Command="{Binding SwitchCommand}"/>
+                    Command="{Binding SwitchCommand}"
+                    
+                    IsVisible="{Binding IsLoading, Converter={StaticResource NegatedConverter}}"/>
             
 
             <Grid GridLayout.Row="4" ColumnDefinitions="*,Auto">
@@ -66,7 +74,26 @@
             </Grid>
 
             <Button GridLayout.Row="5" Text="Start the operation"
-                    ImageSource="start.png" Command="{Binding StartCommand}"/>
+                    ImageSource="start.png" Command="{Binding StartCommand}"
+                    IsVisible="{Binding IsLoading, Converter={StaticResource NegatedConverter}}"/>
+
+            
+            <!-- Loading overlay -->
+            <Grid Background="#ffff" Padding="25" IsVisible="{Binding IsLoading}"
+                  Margin="{OnPlatform iOS='-30,-60,-30,-30', Default='-30'}"
+                  RowSpacing="25"
+                  RowDefinitions="*,Auto" GridLayout.RowSpan="7" VerticalOptions="FillAndExpand">
+
+                <Label Text="Loading..."
+                       FontSize="24"
+                       VerticalOptions="End"
+                       HorizontalOptions="Center"/>
+
+                <ActivityIndicator VerticalOptions="Center" 
+                                   HorizontalOptions="Center"
+                                   IsRunning="True" HeightRequest="80" WidthRequest="80"
+                                   GridLayout.Row="1"/>
+            </Grid>
 
         </Grid>
     </ScrollView>

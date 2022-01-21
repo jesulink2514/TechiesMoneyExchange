@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TechiesMoneyExchange.ConfirmationOperationPage"
+             xmlns:conv="clr-namespace:TechiesMoneyExchange.Core.Converter;assembly=TechiesMoneyExchange.Core"
              Title="Transfer your money!"
              BackgroundColor="White">
     <ContentPage.Resources>
@@ -10,6 +11,10 @@
             <Setter Property="TextColor" Value="Black"/>
             <Setter Property="Background" Value="LightGray"/>
         </Style>
+        <conv:StringFormatConverter x:Key="OperationNoConverter" Format="PE-{0}"/>
+        <conv:BankTypeToStringConverter x:Key="AccountBankTypeConverter" 
+                                        Savings="Savings Account"
+                                        Current="Current Account"/>
     </ContentPage.Resources>
     <ScrollView>
         <Grid RowSpacing="10" 
@@ -18,7 +23,7 @@
 
             <HorizontalStackLayout>
                 <Label Text="Operation No " FontAttributes="Bold" FontSize="18"/>
-                <Label Text="PE-9944576" FontAttributes="Bold" FontSize="18"/>
+                <Label Text="{Binding OperationNo, Converter={StaticResource OperationNoConverter}}" FontAttributes="Bold" FontSize="18"/>
             </HorizontalStackLayout>
 
             <Label Text="Transfer from your Bank to the following account:" 
@@ -26,22 +31,22 @@
 
             <Label GridLayout.Row="2" Text="Sending amount"/>
             <HorizontalStackLayout GridLayout.Row="3">
-                <Label Text="S/."/>
-                <Label Text="200.00"/>
+                <Label Text="{Binding SendingCurrency.Symbol}"/>
+                <Label Text="{Binding SendingAmount}"/>
             </HorizontalStackLayout>
             
             <Label GridLayout.Row="4" Text="Name"/>
-            <Entry GridLayout.Row="5" Text="Techies Co - 20601045142"/>
+            <Entry GridLayout.Row="5" Text="{Binding NameOnAccount}"/>
 
-            <Label GridLayout.Row="6" Text="Account Type and Currency"/>
-            <Entry GridLayout.Row="7" Text="Savings - PEN"/>
+            <Label GridLayout.Row="6" Text="Account Type"/>
+            <Entry GridLayout.Row="7" Text="{Binding AccountType,Converter={StaticResource AccountBankTypeConverter}}"/>
 
             <Label GridLayout.Row="8" Text="Bank"/>
-            <Entry GridLayout.Row="9" Text="A Bank"/>
+            <Entry GridLayout.Row="9" Text="{Binding BankName}"/>
 
             <Label GridLayout.Row="10" Text="Account No"/>
             <Grid GridLayout.Row="11">
-                <Entry Text="155-2001272528" HeightRequest="40"/>
+                <Entry Text="{Binding AccountNo}" HeightRequest="40"/>
                 <Button HorizontalOptions="End" HeightRequest="40"
                         WidthRequest="40"
                         ImageSource="copy.png"/>
@@ -53,6 +58,24 @@
             <Button GridLayout.Row="13" Text="Cancel operation"
                     Command="{Binding CancelCommand}" Background="Orange" />
 
+            
+            <!-- Loading overlay -->
+            <Grid Background="#ffff" Padding="25" IsVisible="{Binding IsLoading}"
+                  Margin="{OnPlatform iOS='-30,-60,-30,-30', Default='-30'}"
+                  RowSpacing="25"
+                  RowDefinitions="*,Auto" GridLayout.RowSpan="14" VerticalOptions="FillAndExpand">
+
+                <Label Text="Loading..."
+                       FontSize="24"
+                       VerticalOptions="End"
+                       HorizontalOptions="Center"/>
+
+                <ActivityIndicator VerticalOptions="Center" 
+                                   HorizontalOptions="Center"
+                                   IsRunning="True" HeightRequest="80" WidthRequest="80"
+                                   GridLayout.Row="1"/>
+            </Grid>
+            
         </Grid>
     </ScrollView>
 </ContentPage>

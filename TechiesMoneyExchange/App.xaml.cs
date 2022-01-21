@@ -39,6 +39,7 @@ public partial class App : Application
         container.Register<INavigationService, NavigationService>(Reuse.Singleton);
 
         container.Register<IExchangeRateService, ExchangeRateService>(Reuse.Singleton);
+        container.Register<IBankAccountService,BankAccountService>(Reuse.Singleton);
 
         container.Register<ExchangeViewModel>(Reuse.Transient);
         container.Register<RegisterOperationViewModel>(Reuse.Transient);

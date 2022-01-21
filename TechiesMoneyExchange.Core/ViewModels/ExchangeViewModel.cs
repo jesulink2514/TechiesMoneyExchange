@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows.Input;
 using TechiesMoneyExchange.Core.Infrastructure.Navigation;
 using TechiesMoneyExchange.Core.ViewModels;
@@ -39,13 +34,20 @@ namespace TechiesMoneyExchange.ViewModels
         public Currency BaseCurrency { get; private set; }
         public bool IsBuying { get; set; }
 
+        public bool IsLoading { get; private set; }
+
         public ICommand SwitchCommand { get;private set;}
         public ICommand StartCommand { get;private set;}
 
         public const int DECIMAL_PLACES = 2;
         public async void OnNavigatedTo(IReadOnlyDictionary<string, object> navigationParameters)
         {
+            IsLoading = true;
+
             exchangeRate = await _exchangeRateService.GetCurrentExchangeRate();
+            
+            IsLoading = false;
+
             
             IsBuying = true; //by-default
 
@@ -92,7 +94,17 @@ namespace TechiesMoneyExchange.ViewModels
 
         private async void OnStartExecute(object obj)
         {
-            await _navigationService.NavigateTo(Pages.RegisterExchange);
+            var exchangeOperation = new DraftExchangeRequest(exchangeRate, 
+                AmountYouPay,
+                AmountYouRecieve,
+                IsBuying? ExchangeOperation.Buy : ExchangeOperation.Sell);
+
+            var parameters = new Dictionary<string, object>
+            {
+                { "operation" , exchangeOperation }
+            };
+
+            await _navigationService.NavigateTo(Pages.RegisterExchange, parameters);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

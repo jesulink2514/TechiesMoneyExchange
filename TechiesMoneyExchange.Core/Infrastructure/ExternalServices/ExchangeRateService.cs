@@ -9,6 +9,11 @@ namespace TechiesMoneyExchange.Infrastructure.ExternalServices
 {
     public class ExchangeRateService : IExchangeRateService
     {
+        private readonly Bank[] Banks = new Bank[]
+       {
+            new Bank(1, "ABC Bank"),
+            new Bank(1, "DEF Bank")
+       };
         public async Task<PublishedExchangeRate> GetCurrentExchangeRate()
         {
             await Task.Delay(1000);
@@ -32,6 +37,18 @@ namespace TechiesMoneyExchange.Infrastructure.ExternalServices
                 },
                 3.98m + randomVariance,
                 3.98m - randomVariance);
+        }
+
+        public async Task<BankAccount> GetExchangeBankAccountFor(Currency currency)
+        {
+            await Task.Delay(2000);
+
+            return new BankAccount(Guid.NewGuid(),            
+                currency,
+                "TechiesMoneyExchange co.",
+                Banks[1],
+                "13245645664456",
+                BankAccountType.Savings);
         }
     }
 }

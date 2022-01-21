@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
 using TechiesMoneyExchange.Core.Infrastructure.Navigation;
+using TechiesMoneyExchange.Infrastructure.ExternalServices;
 using TechiesMoneyExchange.Model;
 
 namespace TechiesMoneyExchange.Core.ViewModels
@@ -8,28 +9,48 @@ namespace TechiesMoneyExchange.Core.ViewModels
     public class ConfirmationOperationViewModel : INotifyPropertyChanged, INavigationAware
     {
         private readonly INavigationService _navigationService;
+        private readonly IExchangeRateService _exchangeRateService;
 
-        public ConfirmationOperationViewModel(INavigationService navigationService)
+        public ConfirmationOperationViewModel(INavigationService navigationService,
+            IExchangeRateService exchangeRateService)
         {            
             _navigationService = navigationService;
+            _exchangeRateService = exchangeRateService;
 
             FinishCommand = new Command(OnFinsh);
             CancelCommand = new Command(OnCancel);
-        }        
-
-        public Currency Currency { get; private set; }
+        }
         public decimal SendingAmount { get; private set; }
+        public Currency SendingCurrency { get; private set; }
+        public int OperationNo { get; set; }
+
+        public Currency BankAccountCurrency { get; private set; }        
         public string NameOnAccount { get; private set; }
-        public string AccountType { get; private set; }
+        public BankAccountType AccountType { get; private set; }
         public string BankName { get; private set; }
         public string AccountNo { get; private set; }
 
         public ICommand FinishCommand { get; private set; }
         public ICommand CancelCommand { get; private set; }
                 
-        public void OnNavigatedTo(IReadOnlyDictionary<string, object> navigationParameters)
+        public async void OnNavigatedTo(IReadOnlyDictionary<string, object> navigationParameters)
         {
+            if(navigationParameters.ContainsKey("operation") && navigationParameters["operation"] is ExchangeRequest operation)
+            {
+                SendingAmount = operation.SendingAmount;
+                SendingCurrency = operation.OperationType == ExchangeOperation.Buy ? operation.ExchangeRate.Currency : operation.ExchangeRate.BaseCurrency;
+                OperationNo = operation.OperationNo;
+            }
             
+            var account =  await _exchangeRateService.GetExchangeBankAccountFor(SendingCurrency);
+
+            BankAccountCurrency = SendingCurrency;
+            NameOnAccount = account.NameOnAccount;
+            AccountType = account.AccountType;
+            BankName = account.Bank.Name;
+            AccountNo = account.AccountNo;
+            
+
         }
         private async void OnFinsh(object obj)
         {            

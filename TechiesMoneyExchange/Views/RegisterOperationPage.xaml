@@ -13,9 +13,16 @@
                 <Label Text="You send" FontSize="18" VerticalOptions="Center"
                            HorizontalTextAlignment="Center"
                            HorizontalOptions="FillAndExpand"/>
-                <Label Grid.Row="1" Text="S/. 200.00" GridLayout.Column="0" FontSize="20"
+
+                <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center">
+                    <Label Text="{Binding SendingCurrency.Symbol}" GridLayout.Column="0" FontSize="20"
                            VerticalOptions="Center" HorizontalTextAlignment="Center"
                            FontAttributes="Bold" HorizontalOptions="FillAndExpand"/>
+                    <Label Text="{Binding SendingAmount}" GridLayout.Column="0" FontSize="20"
+                           VerticalOptions="Center" HorizontalTextAlignment="Center"
+                           FontAttributes="Bold" HorizontalOptions="FillAndExpand"/>
+                </HorizontalStackLayout>
+                
 
                 <Frame GridLayout.Column="1" CornerRadius="25" WidthRequest="50" HeightRequest="50"
                            
@@ -27,13 +34,22 @@
                 <Label Text="You recieve" FontSize="18" VerticalOptions="Center" GridLayout.Column="2"
                            HorizontalTextAlignment="Center"
                            HorizontalOptions="FillAndExpand"/>
-                <Label Grid.Row="1" Text="$ 51.55" GridLayout.Column="2"
+                <HorizontalStackLayout Grid.Row="1" GridLayout.Column="2" HorizontalOptions="Center">
+                    <Label Text="{Binding RecievingCurrency.Symbol}" 
                            FontSize="20"  HorizontalTextAlignment="Center" FontAttributes="Bold"
                            VerticalOptions="Center" HorizontalOptions="FillAndExpand"/>
+                    <Label Text="{Binding RecievingAmount}"
+                           FontSize="20"  HorizontalTextAlignment="Center" FontAttributes="Bold"
+                           VerticalOptions="Center" HorizontalOptions="FillAndExpand"/>
+                </HorizontalStackLayout>
+                
             </Grid>
 
-            <Label GridLayout.Row="1" HorizontalOptions="Center"
-                   Text="Exchange Rate S/. 3.8800"/>
+            <HorizontalStackLayout GridLayout.Row="1" HorizontalOptions="Center">
+                <Label Text="Exchange Rate "/>
+                <Label Text="{Binding BaseCurrency.Symbol}"/>
+                <Label Text="{Binding ExchangeRate}"/>
+            </HorizontalStackLayout>
 
             <Label GridLayout.Row="2"
                    Text="What account did you use to send us your money?"
@@ -44,11 +60,11 @@
                                 CornerRadius="20" GridLayout.ColumnSpan="2"/>
                 
                 <HorizontalStackLayout Spacing="15">
-                    <Label Text="A Bank"/>
+                    <Label Text="{Binding SendingAccount.Bank.Name}"/>
                     <Label Text=" - "/>
-                    <Label Text="PEN"/>
+                    <Label Text="{Binding SendingCurrency.Name}"/>
                 </HorizontalStackLayout>
-                <Label Text="008457451154545" GridLayout.Row="1" GridLayout.Column="0"
+                <Label Text="{Binding SendingAccount.AccountNo}" GridLayout.Row="1" GridLayout.Column="0"
                        TextColor="Black"/>
 
                 <Label Text="Cambiar" FontAttributes="Bold" FontSize="14"
@@ -69,11 +85,11 @@
                                 CornerRadius="20" GridLayout.ColumnSpan="2"/>
 
                 <HorizontalStackLayout Spacing="15">
-                    <Label Text="B Bank"/>
+                    <Label Text="{Binding RecievingAccount.Bank.Name}"/>
                     <Label Text=" - "/>
-                    <Label Text="USD"/>
+                    <Label Text="{Binding RecievingCurrency.Name}"/>
                 </HorizontalStackLayout>
-                <Label Text="001234567800445" GridLayout.Row="1" GridLayout.Column="0"
+                <Label Text="{Binding RecievingAccount.AccountNo}" GridLayout.Row="1" GridLayout.Column="0"
                        TextColor="Black"/>
 
                 <Label Text="Cambiar" FontAttributes="Bold" FontSize="14"
@@ -93,6 +109,23 @@
                     Background="Orange" 
                     Command="{Binding GoBackCommand}"/>
 
+            <!-- Loading overlay -->
+            <Grid Background="#ffff" Padding="25" IsVisible="{Binding IsLoading}"
+                  Margin="{OnPlatform iOS='-30,-60,-30,-30', Default='-30'}"
+                  RowSpacing="25"
+                  RowDefinitions="*,Auto" GridLayout.RowSpan="8" VerticalOptions="FillAndExpand">
+
+                <Label Text="Loading..."
+                       FontSize="24"
+                       VerticalOptions="End"
+                       HorizontalOptions="Center"/>
+
+                <ActivityIndicator VerticalOptions="Center" 
+                                   HorizontalOptions="Center"
+                                   IsRunning="True" HeightRequest="80" WidthRequest="80"
+                                   GridLayout.Row="1"/>
+            </Grid>
+            
         </Grid>
     </ScrollView>
 </ContentPage>
