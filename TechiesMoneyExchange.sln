@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechiesMoneyExchange", "TechiesMoneyExchange\TechiesMoneyExchange.csproj", "{71006A8C-0D38-46B2-BFD7-F51575E805B5}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechiesMoneyExchange.Tests", "TechiesMoneyExchange.Tests\TechiesMoneyExchange.Tests.csproj", "{9873C1CF-97BD-4395-AD00-51D8D4E7AA46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechiesMoneyExchange.Core", "TechiesMoneyExchange.Core\TechiesMoneyExchange.Core.csproj", "{797DC118-0D52-48E5-ABF6-B2F10EC70B02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +21,14 @@ Global
 		{71006A8C-0D38-46B2-BFD7-F51575E805B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71006A8C-0D38-46B2-BFD7-F51575E805B5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{71006A8C-0D38-46B2-BFD7-F51575E805B5}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{9873C1CF-97BD-4395-AD00-51D8D4E7AA46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9873C1CF-97BD-4395-AD00-51D8D4E7AA46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9873C1CF-97BD-4395-AD00-51D8D4E7AA46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9873C1CF-97BD-4395-AD00-51D8D4E7AA46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{797DC118-0D52-48E5-ABF6-B2F10EC70B02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{797DC118-0D52-48E5-ABF6-B2F10EC70B02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{797DC118-0D52-48E5-ABF6-B2F10EC70B02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{797DC118-0D52-48E5-ABF6-B2F10EC70B02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

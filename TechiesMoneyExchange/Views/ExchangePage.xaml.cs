@@ -1,15 +1,19 @@
-﻿namespace TechiesMoneyExchange.Views;
+﻿using TechiesMoneyExchange.Core.Infrastructure.Navigation;
+using TechiesMoneyExchange.Core.ViewModels;
+using TechiesMoneyExchange.Infrastructure.ExternalServices;
+using TechiesMoneyExchange.ViewModels;
+
+namespace TechiesMoneyExchange.Views;
 
 public partial class ExchangePage : ContentPage
 {
 	public ExchangePage()
 	{
 		InitializeComponent();
-	}
 
-	private async void Start_Clicked(object sender, EventArgs e)
-    {
-		await this.Navigation.PushAsync(new RegisterOperationPage());
-    }
+		BindingContext = new ExchangeViewModel(
+			new ExchangeRateService(),
+			new NavigationService());
+	}
 }
 

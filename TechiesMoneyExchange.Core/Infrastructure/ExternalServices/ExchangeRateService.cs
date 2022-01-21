@@ -13,27 +13,25 @@ namespace TechiesMoneyExchange.Infrastructure.ExternalServices
         {
             await Task.Delay(1000);
 
-            var randomVariance = ((decimal)new Random().Next(-10,10))/10m;
+            var randomVariance = ((decimal)new Random().Next(-10,10))/100m;
 
             return new PublishedExchangeRate(Guid.NewGuid(),
                 DateTime.UtcNow,
                 TimeSpan.FromMinutes(5),
-                new ConversionRate(new Currency
-                {
-                    Id = 1,
-                    Name = "PEN",
-                    Symbol = "S/."
-                },0.2512m + randomVariance),
-                new ConversionRate(new Currency()
+                new Currency()
                 {
                     Id = 2,
                     Name = "USD",
                     Symbol = "$"
-                },3.98m + randomVariance));
+                },
+                new Currency
+                {
+                    Id = 1,
+                    Name = "PEN",
+                    Symbol = "S/."
+                },
+                3.98m + randomVariance,
+                3.98m - randomVariance);
         }
-    }
-    public interface IExchangeRateService
-    {
-        Task<PublishedExchangeRate> GetCurrentExchangeRate();
     }
 }

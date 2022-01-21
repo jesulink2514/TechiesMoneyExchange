@@ -1,3 +1,5 @@
+using TechiesMoneyExchange.Core.ViewModels;
+
 namespace TechiesMoneyExchange.Views
 {
     public partial class MainTabsPage: TabbedPage
@@ -6,7 +8,13 @@ namespace TechiesMoneyExchange.Views
 		{
 			InitializeComponent();
 			SelectedItem = this.Children[2];
-			Exchange.PushAsync(new ExchangePage());
+
+			var page = new ExchangePage();
+			Exchange.PushAsync(page);
+			if(page.BindingContext is INavigationAware vm)
+            {
+				vm.OnNavigatedTo(new Dictionary<string, object>());
+            }
 		}
 	}
 }
