@@ -50,6 +50,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\copy.svg" />
 	  <None Remove="Resources\Images\dollar.svg" />
 	  <None Remove="Resources\Images\help.svg" />
 	  <None Remove="Resources\Images\operations.svg" />
@@ -62,6 +63,7 @@
 	</ItemGroup>
 
 	<ItemGroup>	  
+	  <PackageReference Include="DryIoc.dll" Version="4.8.6" />	  
 	  <PackageReference Include="Xamarin.CommunityToolkit.MauiCompat" Version="1.3.2" />
 	</ItemGroup>
 

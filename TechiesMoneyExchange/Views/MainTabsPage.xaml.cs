@@ -6,15 +6,7 @@ namespace TechiesMoneyExchange.Views
 	{
 		public MainTabsPage()
 		{
-			InitializeComponent();
-			SelectedItem = this.Children[2];
-
-			var page = new ExchangePage();
-			Exchange.PushAsync(page);
-			if(page.BindingContext is INavigationAware vm)
-            {
-				vm.OnNavigatedTo(new Dictionary<string, object>());
-            }
+			InitializeComponent();			
 		}
 	}
 }

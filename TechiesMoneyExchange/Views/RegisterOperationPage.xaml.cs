@@ -2,6 +2,8 @@ using System;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Xaml;
+using TechiesMoneyExchange.Core.Infrastructure.Navigation;
+using TechiesMoneyExchange.ViewModels;
 
 namespace TechiesMoneyExchange.Views
 {
@@ -9,17 +11,7 @@ namespace TechiesMoneyExchange.Views
 	{
 		public RegisterOperationPage()
 		{
-			InitializeComponent();
-		}
-
-		private async void Register_Clicked(object sender, EventArgs e)
-        {
-			await Navigation.PushAsync(new ConfirmationOperationPage());
-        }
-
-		private async void Page_Appearing(object sender, EventArgs e)
-        {
-
-        }
+			InitializeComponent();			
+		}	
 	}
 }

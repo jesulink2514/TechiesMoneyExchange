@@ -2,9 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TechiesMoneyExchange.Views.RegisterOperationPage"
-             Title="Register your operation"
-             xmlns:ct="clr-namespace:Xamarin.CommunityToolkit.Effects.Semantic;assembly=Xamarin.CommunityToolkit.MauiCompat"
-             BackgroundColor="White" Appearing="Page_Appearing">
+             Title="Register your operation"             
+             BackgroundColor="White">
     <ScrollView>
         <Grid RowSpacing="25" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
               Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
@@ -88,10 +87,11 @@
 
             <Button GridLayout.Row="6" Text="Register your operation"
                     ImageSource="start.png" 
-                    Clicked="Register_Clicked"/>
+                    Command="{Binding RegisterCommand}"/>
 
             <Button GridLayout.Row="7" Text="Go back"
-                    Background="Orange" />
+                    Background="Orange" 
+                    Command="{Binding GoBackCommand}"/>
 
         </Grid>
     </ScrollView>

@@ -7,36 +7,51 @@
     <ContentPage.Resources>
         <Style TargetType="Entry">
             <Setter Property="IsEnabled" Value="False"/>
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="Background" Value="LightGray"/>
         </Style>
     </ContentPage.Resources>
     <ScrollView>
-        <Grid RowSpacing="25" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+        <Grid RowSpacing="10" 
+              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
               Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
 
             <HorizontalStackLayout>
-                <Label Text="Operation No "/>
-                <Label Text="PE-9944576"/>
+                <Label Text="Operation No " FontAttributes="Bold" FontSize="18"/>
+                <Label Text="PE-9944576" FontAttributes="Bold" FontSize="18"/>
             </HorizontalStackLayout>
 
-            <Label Text="Transfer from your Bank app to the following account:" 
+            <Label Text="Transfer from your Bank to the following account:" 
                    GridLayout.Row="1"/>
 
-            <Label GridLayout.Row="2" Text="Name"/>
-            <Entry GridLayout.Row="3" Text="Techies Co - 20601045142"/>
+            <Label GridLayout.Row="2" Text="Sending amount"/>
+            <HorizontalStackLayout GridLayout.Row="3">
+                <Label Text="S/."/>
+                <Label Text="200.00"/>
+            </HorizontalStackLayout>
+            
+            <Label GridLayout.Row="4" Text="Name"/>
+            <Entry GridLayout.Row="5" Text="Techies Co - 20601045142"/>
 
-            <Label GridLayout.Row="4" Text="Account Type and Currency"/>
-            <Entry GridLayout.Row="5" Text="Savings - PEN"/>
+            <Label GridLayout.Row="6" Text="Account Type and Currency"/>
+            <Entry GridLayout.Row="7" Text="Savings - PEN"/>
 
-            <Label GridLayout.Row="6" Text="Bank"/>
-            <Entry GridLayout.Row="7" Text="A Bank"/>
+            <Label GridLayout.Row="8" Text="Bank"/>
+            <Entry GridLayout.Row="9" Text="A Bank"/>
 
-            <Label GridLayout.Row="8" Text="Account No"/>
-            <Entry GridLayout.Row="9" Text="155-2001272528"/>
+            <Label GridLayout.Row="10" Text="Account No"/>
+            <Grid GridLayout.Row="11">
+                <Entry Text="155-2001272528" HeightRequest="40"/>
+                <Button HorizontalOptions="End" HeightRequest="40"
+                        WidthRequest="40"
+                        ImageSource="copy.png"/>
+            </Grid>
+            
 
-            <Button GridLayout.Row="10" Text="Finish"
-                    />
-            <Button GridLayout.Row="11" Text="Cancel operation"
-                    Background="Orange" />
+            <Button GridLayout.Row="12" Text="Finish"
+                    Command="{Binding FinishCommand}"/>
+            <Button GridLayout.Row="13" Text="Cancel operation"
+                    Command="{Binding CancelCommand}" Background="Orange" />
 
         </Grid>
     </ScrollView>
