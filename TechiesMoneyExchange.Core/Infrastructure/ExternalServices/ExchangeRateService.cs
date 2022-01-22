@@ -18,7 +18,7 @@ namespace TechiesMoneyExchange.Infrastructure.ExternalServices
         {
             await Task.Delay(1000);
 
-            var randomVariance = ((decimal)new Random().Next(-10,10))/100m;
+            var randomVariance = ((decimal)new Random().Next(0,15))/100m;
 
             return new PublishedExchangeRate(Guid.NewGuid(),
                 DateTime.UtcNow,
@@ -35,8 +35,8 @@ namespace TechiesMoneyExchange.Infrastructure.ExternalServices
                     Name = "PEN",
                     Symbol = "S/."
                 },
-                3.98m + randomVariance,
-                3.98m - randomVariance);
+                3.98m - randomVariance,
+                3.98m + randomVariance);
         }
 
         public async Task<BankAccount> GetExchangeBankAccountFor(Currency currency)
