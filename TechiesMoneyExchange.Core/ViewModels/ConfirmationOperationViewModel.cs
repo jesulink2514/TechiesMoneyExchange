@@ -32,9 +32,12 @@ namespace TechiesMoneyExchange.Core.ViewModels
 
         public ICommand FinishCommand { get; private set; }
         public ICommand CancelCommand { get; private set; }
-                
+
+        public bool IsLoading { get; private set; }
+
         public async void OnNavigatedTo(IReadOnlyDictionary<string, object> navigationParameters)
         {
+            IsLoading = true;
             if(navigationParameters.ContainsKey("operation") && navigationParameters["operation"] is ExchangeRequest operation)
             {
                 SendingAmount = operation.SendingAmount;
@@ -49,8 +52,8 @@ namespace TechiesMoneyExchange.Core.ViewModels
             AccountType = account.AccountType;
             BankName = account.Bank.Name;
             AccountNo = account.AccountNo;
-            
 
+            IsLoading = false;
         }
         private async void OnFinsh(object obj)
         {            
@@ -58,7 +61,11 @@ namespace TechiesMoneyExchange.Core.ViewModels
         }
         private async void OnCancel(object obj)
         {
+            IsLoading = true;
+
             await _navigationService.NavigateTo(Pages.ExchangeStart, clearHistory: true);
+
+            IsLoading = true;
         }
         public event PropertyChangedEventHandler PropertyChanged;
     }

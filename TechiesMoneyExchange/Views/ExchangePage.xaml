@@ -10,18 +10,19 @@
                                     Format="We buy {0}"/>
         <conv:StringFormatConverter x:Key="WesellConverter" 
                                     Format="We sell {0}"/>
+        
+        
     </ContentPage.Resources>
     
     <ScrollView>
         <Grid RowSpacing="25" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
               Padding="{OnPlatform iOS='30,60,30,30', Default='30'}" IsEnabled="False">
 
-            <Label TextColor="Black" Text="Exchange rate will be updated in: 04:54min">
-            </Label>
+            <Label TextColor="Black" Text="Exchange rate will be updated in: 04:54min" />
 
             <Grid GridLayout.Row="1" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
                 <Label Text="{Binding MainCurrency.Name,Converter={StaticResource WebuyConverter}}" 
-                       GridLayout.Row="0" HorizontalTextAlignment="Center"/>
+                       HorizontalTextAlignment="Center"/>
                 <HorizontalStackLayout GridLayout.Row="1" Spacing="5" HorizontalOptions="Center">
                     <Label Text="{Binding BaseCurrency.Symbol}" FontAttributes="Bold"
                        HorizontalTextAlignment="Center"/>
@@ -40,7 +41,7 @@
             </Grid>
 
             <Grid GridLayout.Row="2">
-                <RoundRectangle CornerRadius="20" Fill="LightGray"/>
+                <RoundRectangle CornerRadius="20" Fill="#ededed"/>
                 <Grid ColumnDefinitions="Auto,*" ColumnSpacing="25" HorizontalOptions="Fill" Padding="10">
                     <Label Text="{Binding SendingCurrency.Symbol}" FontSize="40" VerticalOptions="Center" WidthRequest="50"
                            HorizontalTextAlignment="Center"/>
@@ -51,7 +52,7 @@
             </Grid>
             
             <Grid GridLayout.Row="3">
-                <RoundRectangle CornerRadius="20" Fill="LightGray"/>
+                <RoundRectangle CornerRadius="20" Fill="#ededed"/>
                 <Grid ColumnDefinitions="Auto,*" ColumnSpacing="25" HorizontalOptions="Fill" Padding="10">
                     <Label Text="{Binding RecievingCurrency.Symbol}" FontSize="40" VerticalOptions="Center" WidthRequest="50"
                            HorizontalTextAlignment="Center"/>

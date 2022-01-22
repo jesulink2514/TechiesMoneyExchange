@@ -4,23 +4,38 @@
              x:Class="TechiesMoneyExchange.Views.RegisterOperationPage"
              Title="Register your operation"             
              BackgroundColor="White">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Style TargetType="Label" x:Key="TitleLabel">
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="FontSize" Value="20"/>
+            </Style>
+            <Style TargetType="Label" x:Key="TitleCaption">
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="FontSize" Value="18"/>
+            </Style>
+            
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ScrollView>
         <Grid RowSpacing="25" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
               Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
 
 
             <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="Auto,Auto" HorizontalOptions="FillAndExpand">
-                <Label Text="You send" FontSize="18" VerticalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           HorizontalOptions="FillAndExpand"/>
+                <Label Text="You send" Style="{StaticResource TitleCaption}"/>
 
                 <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center">
-                    <Label Text="{Binding SendingCurrency.Symbol}" GridLayout.Column="0" FontSize="20"
-                           VerticalOptions="Center" HorizontalTextAlignment="Center"
-                           FontAttributes="Bold" HorizontalOptions="FillAndExpand"/>
-                    <Label Text="{Binding SendingAmount}" GridLayout.Column="0" FontSize="20"
-                           VerticalOptions="Center" HorizontalTextAlignment="Center"
-                           FontAttributes="Bold" HorizontalOptions="FillAndExpand"/>
+                    <Label Text="{Binding SendingCurrency.Symbol}" Style="{StaticResource TitleLabel}"/>
+                    <Label Text="{Binding SendingAmount}" GridLayout.Column="0" Style="{StaticResource TitleLabel}"/>
                 </HorizontalStackLayout>
                 
 
@@ -31,24 +46,19 @@
                                HorizontalOptions="Center" VerticalOptions="Center"/>
                 </Frame>
 
-                <Label Text="You recieve" FontSize="18" VerticalOptions="Center" GridLayout.Column="2"
-                           HorizontalTextAlignment="Center"
-                           HorizontalOptions="FillAndExpand"/>
+                <Label Text="You recieve" Style="{StaticResource TitleCaption}" GridLayout.Column="2"/>
+                
                 <HorizontalStackLayout Grid.Row="1" GridLayout.Column="2" HorizontalOptions="Center">
-                    <Label Text="{Binding RecievingCurrency.Symbol}" 
-                           FontSize="20"  HorizontalTextAlignment="Center" FontAttributes="Bold"
-                           VerticalOptions="Center" HorizontalOptions="FillAndExpand"/>
-                    <Label Text="{Binding RecievingAmount}"
-                           FontSize="20"  HorizontalTextAlignment="Center" FontAttributes="Bold"
-                           VerticalOptions="Center" HorizontalOptions="FillAndExpand"/>
+                    <Label Text="{Binding RecievingCurrency.Symbol}" Style="{StaticResource TitleLabel}"/>
+                    <Label Text="{Binding RecievingAmount}" Style="{StaticResource TitleLabel}"/>
                 </HorizontalStackLayout>
                 
             </Grid>
 
             <HorizontalStackLayout GridLayout.Row="1" HorizontalOptions="Center">
                 <Label Text="Exchange Rate "/>
-                <Label Text="{Binding BaseCurrency.Symbol}"/>
-                <Label Text="{Binding ExchangeRate}"/>
+                <Label Text="{Binding BaseCurrency.Symbol}" FontAttributes="Bold"/>
+                <Label Text="{Binding ExchangeRate}" FontAttributes="Bold"/>
             </HorizontalStackLayout>
 
             <Label GridLayout.Row="2"
@@ -103,11 +113,11 @@
 
             <Button GridLayout.Row="6" Text="Register your operation"
                     ImageSource="start.png" 
-                    Command="{Binding RegisterCommand}"/>
+                    Command="{Binding RegisterCommand}" IsVisible="{Binding IsLoading,Converter={StaticResource NegatedConverter}}"/>
 
             <Button GridLayout.Row="7" Text="Go back"
                     Background="Orange" 
-                    Command="{Binding GoBackCommand}"/>
+                    Command="{Binding GoBackCommand}" IsVisible="{Binding IsLoading,Converter={StaticResource NegatedConverter}}"/>
 
             <!-- Loading overlay -->
             <Grid Background="#ffff" Padding="25" IsVisible="{Binding IsLoading}"

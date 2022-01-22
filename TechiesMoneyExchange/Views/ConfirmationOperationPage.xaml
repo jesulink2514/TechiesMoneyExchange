@@ -49,14 +49,16 @@
                 <Entry Text="{Binding AccountNo}" HeightRequest="40"/>
                 <Button HorizontalOptions="End" HeightRequest="40"
                         WidthRequest="40"
-                        ImageSource="copy.png"/>
+                        ImageSource="copy.png"
+                         IsVisible="{Binding IsLoading, Converter={StaticResource NegatedConverter}}"/>
             </Grid>
             
 
             <Button GridLayout.Row="12" Text="Finish"
-                    Command="{Binding FinishCommand}"/>
+                    Command="{Binding FinishCommand}" IsVisible="{Binding IsLoading, Converter={StaticResource NegatedConverter}}"/>
             <Button GridLayout.Row="13" Text="Cancel operation"
-                    Command="{Binding CancelCommand}" Background="Orange" />
+                    Command="{Binding CancelCommand}" IsVisible="{Binding IsLoading, Converter={StaticResource NegatedConverter}}" 
+                    Background="Orange" />
 
             
             <!-- Loading overlay -->

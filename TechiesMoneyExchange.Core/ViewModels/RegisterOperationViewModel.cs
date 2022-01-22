@@ -40,10 +40,12 @@ namespace TechiesMoneyExchange.ViewModels
             GoBackCommand = new Command(OnGoBack);
             RegisterCommand = new Command(OnRegisterExecute);
         }
-        
+        public bool IsLoading { get; private set; }
         public async void OnNavigatedTo(IReadOnlyDictionary<string, object> navigationParameters)
-        {
-            if(navigationParameters.ContainsKey("operation") && 
+        {            
+            IsLoading = true;
+            
+            if (navigationParameters.ContainsKey("operation") && 
                 navigationParameters["operation"] is DraftExchangeRequest operation)
             {
                 exchangeOperation = operation;
@@ -66,6 +68,8 @@ namespace TechiesMoneyExchange.ViewModels
                 RecievingAccount = await _bankAccountService.GetDefaultBankAccountFor(RecievingCurrency);
                 SendingAccount   = await _bankAccountService.GetDefaultBankAccountFor(SendingCurrency);
             }
+
+            IsLoading = false;
         }
 
         private async void OnGoBack(object obj)
@@ -74,6 +78,8 @@ namespace TechiesMoneyExchange.ViewModels
         }
         private async void OnRegisterExecute(object obj)
         {
+            IsLoading = true;
+
             var exchangeRequest = new ExchangeOperationRequest(
                 exchangeOperation.ExchangeRate,
                 SendingAmount,
@@ -92,6 +98,8 @@ namespace TechiesMoneyExchange.ViewModels
                 RecievingAccount,
                 DateTime.UtcNow
                 );
+
+            IsLoading = false;
 
             await _navigationService.NavigateTo(Pages.ConfirmationExchange, new Dictionary<string, object>
             {
