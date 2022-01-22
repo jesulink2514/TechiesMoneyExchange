@@ -10,7 +10,7 @@ This sample showcase a Money-Exchange app to buy/sell **USD** and **PEN (Peru Ne
 
 <https://docs.microsoft.com/en-us/xamarin/xamarin-forms/enterprise-application-patterns/dependency-injection>
 
-<https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/xaml-basics/data-bindings-to-mvvm>Ading 
+<https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/xaml-basics/data-bindings-to-mvvm> 
 
 <https://docs.microsoft.com/en-us/learn/modules/design-a-mvvm-viewmodel-for-xamarin-forms/>
 

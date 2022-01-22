@@ -25,6 +25,8 @@ namespace TechiesMoneyExchange.ViewModels
 
         public ICommand RegisterCommand { get;private set; }
         public ICommand GoBackCommand { get; private set; }
+        public bool IsLoading { get; private set; }
+
 
         private DraftExchangeRequest exchangeOperation;
 
@@ -44,7 +46,6 @@ namespace TechiesMoneyExchange.ViewModels
             GoBackCommand = new Command(OnGoBack);
             RegisterCommand = new Command(OnRegisterExecute);
         }
-        public bool IsLoading { get; private set; }
         public async void OnNavigatedTo(IReadOnlyDictionary<string, object> navigationParameters)
         {            
             IsLoading = true;
