@@ -40,7 +40,7 @@ namespace TechiesMoneyExchange.ViewModels
         public ICommand StartCommand { get;private set;}
 
         public const int DECIMAL_PLACES = 2;
-        public const decimal PRECISION_TOLERANCE = 0.02m;
+        public const decimal PRECISION_TOLERANCE = 0.01m;
         public async void OnNavigatedTo(IReadOnlyDictionary<string, object> navigationParameters)
         {
             IsLoading = true;
@@ -61,19 +61,16 @@ namespace TechiesMoneyExchange.ViewModels
             RecievingCurrency = exchangeRate.Currency;
 
             AmountYouPay = 100;
-            AmountYouRecieve = Math.Round(IsBuying ? 
-                (AmountYouPay / BuyingRate) : 
-                (AmountYouPay * SellingRate), DECIMAL_PLACES, MidpointRounding.AwayFromZero); 
-
+            AmountYouRecieve = exchangeRate.CalculateRecievingAmount(ExchangeOperation.Buy, AmountYouPay);
         }
 
         private void OnAmountYouPayChanged()
         {
             var oldValue = AmountYouRecieve;
 
-            var newValue = Math.Round(IsBuying ?
-                (AmountYouPay / BuyingRate) :
-                (AmountYouPay * SellingRate), DECIMAL_PLACES, MidpointRounding.AwayFromZero);
+            var newValue = exchangeRate.CalculateRecievingAmount(
+                IsBuying ? ExchangeOperation.Buy: ExchangeOperation.Sell, 
+                AmountYouPay);
 
             if(Math.Abs(oldValue  - newValue) > PRECISION_TOLERANCE)
             {
@@ -85,9 +82,8 @@ namespace TechiesMoneyExchange.ViewModels
         {
             var oldValue = AmountYouPay;
 
-            var newValue = Math.Round(IsBuying ?
-                (AmountYouRecieve * BuyingRate) :
-                (AmountYouRecieve / SellingRate), DECIMAL_PLACES, MidpointRounding.AwayFromZero);
+            var newValue = exchangeRate.CalculateSendingAmount(IsBuying ? ExchangeOperation.Buy : ExchangeOperation.Sell,
+                AmountYouRecieve);
 
             if(Math.Abs(oldValue - newValue) > PRECISION_TOLERANCE)
             {
@@ -109,10 +105,8 @@ namespace TechiesMoneyExchange.ViewModels
 
         private async void OnStartExecute(object obj)
         {
-            var exchangeOperation = new DraftExchangeRequest(exchangeRate, 
-                AmountYouPay,
-                AmountYouRecieve,
-                IsBuying? ExchangeOperation.Buy : ExchangeOperation.Sell);
+            var opType = IsBuying ? ExchangeOperation.Buy : ExchangeOperation.Sell;
+            var exchangeOperation = exchangeRate.CreateExchangeRequestFor(opType, AmountYouPay);
 
             var parameters = new Dictionary<string, object>
             {

@@ -26,5 +26,36 @@
         public Currency BaseCurrency { get; set; }
         public decimal BuyingRate { get; }
         public decimal SellingRate { get; }
+
+        private const int DECIMAL_PLACES = 4;
+        public decimal CalculateRecievingAmount(ExchangeOperation type, decimal amount)
+        {
+            var amountYouRecieve = Math.Round(type == ExchangeOperation.Buy ?
+                (amount / BuyingRate) :
+                (amount * SellingRate), DECIMAL_PLACES, MidpointRounding.AwayFromZero);
+
+            return amountYouRecieve;
+        }
+
+        public decimal CalculateSendingAmount(ExchangeOperation type, decimal recievingAmount)
+        {
+            var newValue = Math.Round(type == ExchangeOperation.Buy ?
+                (recievingAmount * BuyingRate) :
+                (recievingAmount / SellingRate), DECIMAL_PLACES, MidpointRounding.AwayFromZero);
+
+            return newValue;
+        }
+
+        public DraftExchangeRequest CreateExchangeRequestFor(ExchangeOperation type, decimal sendingAmount)
+        {
+            var amountYouRecieve = CalculateRecievingAmount(type, sendingAmount);
+
+            var exchangeOperation = new DraftExchangeRequest(this,
+               sendingAmount,
+               amountYouRecieve,
+               type);
+
+            return exchangeOperation;
+        }
     }
 }
