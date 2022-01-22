@@ -50,5 +50,28 @@ namespace TechiesMoneyExchange.Infrastructure.ExternalServices
                 "13245645664456",
                 BankAccountType.Savings);
         }
+
+        public async Task<ExchangeRequest> RegisterOperation(ExchangeOperationRequest request)
+        {
+            await Task.Delay(2500);
+
+            var result = new ExchangeRequest(Guid.NewGuid(),
+                
+                new Random().Next(123456,999999),
+                
+                request.ExchangeRate,
+                
+                request.SendingAmount,
+                request.RecievingAmount,
+                
+                request.OperationType,
+
+                request.SendingAccount,
+                request.RecievingAccount,
+                DateTime.UtcNow
+                );
+
+            return result;
+        }
     }
 }

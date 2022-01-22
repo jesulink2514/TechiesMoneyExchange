@@ -40,6 +40,7 @@ namespace TechiesMoneyExchange.ViewModels
         public ICommand StartCommand { get;private set;}
 
         public const int DECIMAL_PLACES = 2;
+        public const decimal PRECISION_TOLERANCE = 0.02m;
         public async void OnNavigatedTo(IReadOnlyDictionary<string, object> navigationParameters)
         {
             IsLoading = true;
@@ -68,16 +69,30 @@ namespace TechiesMoneyExchange.ViewModels
 
         private void OnAmountYouPayChanged()
         {
-            AmountYouRecieve = Math.Round(IsBuying ?
+            var oldValue = AmountYouRecieve;
+
+            var newValue = Math.Round(IsBuying ?
                 (AmountYouPay / BuyingRate) :
                 (AmountYouPay * SellingRate), DECIMAL_PLACES, MidpointRounding.AwayFromZero);
+
+            if(Math.Abs(oldValue  - newValue) > PRECISION_TOLERANCE)
+            {
+                AmountYouRecieve = newValue;
+            }
         }
 
         private void OnAmountYouRecieveChanged()
         {
-            AmountYouPay = Math.Round(IsBuying ?
+            var oldValue = AmountYouPay;
+
+            var newValue = Math.Round(IsBuying ?
                 (AmountYouRecieve * BuyingRate) :
                 (AmountYouRecieve / SellingRate), DECIMAL_PLACES, MidpointRounding.AwayFromZero);
+
+            if(Math.Abs(oldValue - newValue) > PRECISION_TOLERANCE)
+            {
+                AmountYouPay = newValue;
+            }
         }
 
         private void OnSwitchExecute(object obj)

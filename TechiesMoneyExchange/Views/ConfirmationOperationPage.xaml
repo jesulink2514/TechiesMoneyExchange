@@ -31,8 +31,8 @@
 
             <Label GridLayout.Row="2" Text="Sending amount"/>
             <HorizontalStackLayout GridLayout.Row="3">
-                <Label Text="{Binding SendingCurrency.Symbol}"/>
-                <Label Text="{Binding SendingAmount}"/>
+                <Label Text="{Binding SendingCurrency.Symbol}" FontSize="18"/>
+                <Label Text="{Binding SendingAmount}" FontSize="18"/>
             </HorizontalStackLayout>
             
             <Label GridLayout.Row="4" Text="Name"/>

@@ -30,13 +30,17 @@ namespace TechiesMoneyExchange.ViewModels
 
         private readonly INavigationService _navigationService;
         private readonly IBankAccountService _bankAccountService;
+        private readonly IExchangeRateService _exchangeRateService;
 
         public RegisterOperationViewModel(
             INavigationService navigationService,
-            IBankAccountService bankAccountService)
+            IBankAccountService bankAccountService,
+            IExchangeRateService exchangeRateService)
         {
             _navigationService = navigationService;
             _bankAccountService = bankAccountService;
+            _exchangeRateService = exchangeRateService;
+
             GoBackCommand = new Command(OnGoBack);
             RegisterCommand = new Command(OnRegisterExecute);
         }
@@ -88,16 +92,7 @@ namespace TechiesMoneyExchange.ViewModels
                 SendingAccount,
                 RecievingAccount);
 
-            var result = new ExchangeRequest(Guid.NewGuid(),
-                123456,
-                exchangeOperation.ExchangeRate,
-                SendingAmount,
-                RecievingAmount,
-                exchangeOperation.OperationType,
-                SendingAccount,
-                RecievingAccount,
-                DateTime.UtcNow
-                );
+           var result = await _exchangeRateService.RegisterOperation(exchangeRequest);
 
             IsLoading = false;
 
