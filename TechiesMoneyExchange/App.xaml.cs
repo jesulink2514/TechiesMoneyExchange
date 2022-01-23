@@ -18,33 +18,41 @@ public partial class App : Application
 	public static IResolver ServiceLocator { get;private set; }
 	protected override async void OnStart()
     {
-        ConfigureServices();
+        //ConfigureServices();
 
         var tabbedPage = MainPage as TabbedPage;
         tabbedPage.SelectedItem = tabbedPage.Children[2];
         
-        var navigationService = ServiceLocator.GetService<INavigationService>();
+        var navigationService = new NavigationService();
         var page = navigationService.ResolvePage(Pages.ExchangeStart);
-        await tabbedPage.Children[2].Navigation.PushAsync(page);        
+        await tabbedPage.Children[2].Navigation.PushAsync(page);
         if (page.BindingContext is INavigationAware vm)
         {
             vm.OnNavigatedTo(new Dictionary<string, object>());
         }
+
+        //var navigationService = ServiceLocator.GetService<INavigationService>();
+        //var page = navigationService.ResolvePage(Pages.ExchangeStart);
+        //await tabbedPage.Children[2].Navigation.PushAsync(page);        
+        //if (page.BindingContext is INavigationAware vm)
+        //{
+        //    vm.OnNavigatedTo(new Dictionary<string, object>());
+        //}
     }
 
-    private static void ConfigureServices()
-    {
-        var container = new DryIoc.Container();
+    //private static void ConfigureServices()
+    //{
+    //    var container = new DryIoc.Container();
 
-        container.Register<INavigationService, NavigationService>(Reuse.Singleton);
+    //    container.Register<INavigationService, NavigationService>(Reuse.Singleton);
 
-        container.Register<IExchangeRateService, ExchangeRateService>(Reuse.Singleton);
-        container.Register<IBankAccountService,BankAccountService>(Reuse.Singleton);
+    //    container.Register<IExchangeRateService, ExchangeRateService>(Reuse.Singleton);
+    //    container.Register<IBankAccountService,BankAccountService>(Reuse.Singleton);
 
-        container.Register<ExchangeViewModel>(Reuse.Transient);
-        container.Register<RegisterOperationViewModel>(Reuse.Transient);
-        container.Register<ConfirmationOperationViewModel>(Reuse.Transient);
+    //    container.Register<ExchangeViewModel>(Reuse.Transient);
+    //    container.Register<RegisterOperationViewModel>(Reuse.Transient);
+    //    container.Register<ConfirmationOperationViewModel>(Reuse.Transient);
 
-        ServiceLocator = container;
-    }
+    //    ServiceLocator = container;
+    //}
 }
