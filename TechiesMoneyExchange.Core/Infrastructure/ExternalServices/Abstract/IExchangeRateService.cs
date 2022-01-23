@@ -7,5 +7,6 @@ namespace TechiesMoneyExchange.Infrastructure.ExternalServices
         Task<PublishedExchangeRate> GetCurrentExchangeRate();
         Task<BankAccount> GetExchangeBankAccountFor(Currency currency);
         Task<ExchangeRequest> RegisterOperation(ExchangeOperationRequest request);
+        Task<ExchangeRequest[]> GetLast7daysOperations();
     }
 }

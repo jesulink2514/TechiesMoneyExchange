@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechiesMoneyExchange", "Tec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechiesMoneyExchange.Tests", "TechiesMoneyExchange.Tests\TechiesMoneyExchange.Tests.csproj", "{9873C1CF-97BD-4395-AD00-51D8D4E7AA46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechiesMoneyExchange.Core", "TechiesMoneyExchange.Core\TechiesMoneyExchange.Core.csproj", "{797DC118-0D52-48E5-ABF6-B2F10EC70B02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechiesMoneyExchange.Core", "TechiesMoneyExchange.Core\TechiesMoneyExchange.Core.csproj", "{797DC118-0D52-48E5-ABF6-B2F10EC70B02}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A0750A42-C2F6-48B2-9ED3-9525E87C6D43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

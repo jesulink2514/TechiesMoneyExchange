@@ -11,7 +11,7 @@ namespace TechiesMoneyExchange.Infrastructure.ExternalServices
         };
         public async Task<BankAccount[]> GetBankAccountsFor(Currency currency)
         {
-            await Task.Delay(2000);
+            await Task.Delay(200);
 
             return new BankAccount[]{ new BankAccount(Guid.NewGuid(),
                 currency,
@@ -23,7 +23,7 @@ namespace TechiesMoneyExchange.Infrastructure.ExternalServices
 
         public async Task<BankAccount> GetDefaultBankAccountFor(Currency currency)
         {
-            await Task.Delay(2000);
+            await Task.Delay(200);
 
             return new BankAccount(Guid.NewGuid(),
                 currency,

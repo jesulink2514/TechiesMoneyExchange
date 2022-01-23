@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TechiesMoneyExchange.Model;
+﻿using TechiesMoneyExchange.Model;
 
 namespace TechiesMoneyExchange.Infrastructure.ExternalServices
 {
@@ -16,7 +11,7 @@ namespace TechiesMoneyExchange.Infrastructure.ExternalServices
        };
         public async Task<PublishedExchangeRate> GetCurrentExchangeRate()
         {
-            await Task.Delay(1000);
+            await Task.Delay(200);
 
             var randomVariance = ((decimal)new Random().Next(-10,10))/100m;
 
@@ -41,7 +36,7 @@ namespace TechiesMoneyExchange.Infrastructure.ExternalServices
 
         public async Task<BankAccount> GetExchangeBankAccountFor(Currency currency)
         {
-            await Task.Delay(2000);
+            await Task.Delay(200);
 
             return new BankAccount(Guid.NewGuid(),            
                 currency,
@@ -51,27 +46,37 @@ namespace TechiesMoneyExchange.Infrastructure.ExternalServices
                 BankAccountType.Savings);
         }
 
+        private readonly List<ExchangeRequest> _operations = new();
         public async Task<ExchangeRequest> RegisterOperation(ExchangeOperationRequest request)
         {
-            await Task.Delay(2500);
+            await Task.Delay(250);
 
             var result = new ExchangeRequest(Guid.NewGuid(),
-                
-                new Random().Next(123456,999999),
-                
+
+                new Random().Next(123456, 999999),
+
                 request.ExchangeRate,
-                
+
                 request.SendingAmount,
                 request.RecievingAmount,
-                
+
                 request.OperationType,
 
                 request.SendingAccount,
                 request.RecievingAccount,
-                DateTime.UtcNow
+                DateTime.UtcNow,
+                ExchangeOperationStatus.Pending
                 );
 
+            _operations.Add(result);
+
             return result;
+        }
+
+        public async Task<ExchangeRequest[]> GetLast7daysOperations()
+        {
+            await Task.Delay(150);
+            return _operations.OrderByDescending(x => x.CreationTimeUTC).ToArray();
         }
     }
 }

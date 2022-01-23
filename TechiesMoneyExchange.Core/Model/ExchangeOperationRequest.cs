@@ -4,11 +4,10 @@
     {
         public ExchangeOperationRequest(            
             PublishedExchangeRate exchangeRate,
-            decimal sendingAmount,
-            decimal recievingAmount,
+            decimal sendingAmount,            
             ExchangeOperation operationType,
             BankAccount sendingAccount,
-            BankAccount recievingAccount) : base(exchangeRate, sendingAmount, recievingAmount, operationType)
+            BankAccount recievingAccount) : base(exchangeRate, sendingAmount, operationType)
         {            
             SendingAccount = sendingAccount;
             RecievingAccount = recievingAccount;            

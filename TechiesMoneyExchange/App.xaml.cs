@@ -4,6 +4,7 @@ using TechiesMoneyExchange.Core.ViewModels;
 using TechiesMoneyExchange.Infrastructure.ExternalServices;
 using TechiesMoneyExchange.ViewModels;
 using TechiesMoneyExchange.Views;
+using TechiesMoneyExchange.Core.UseCases;
 
 namespace TechiesMoneyExchange;
 
@@ -41,9 +42,15 @@ public partial class App : Application
         container.Register<IExchangeRateService, ExchangeRateService>(Reuse.Singleton);
         container.Register<IBankAccountService,BankAccountService>(Reuse.Singleton);
 
+        container.Register<IGetDefaultExchangeUseCase,GetDefaultExchangeUseCase>(Reuse.Singleton);
+        container.Register<IGetLatestExchangeRateUseCase, GetLatestExchangeRateUseCase>(Reuse.Singleton);
+        container.Register<IApplyNewExchangedAmountUseCase, ApplyNewExchangedAmountUseCase>(Reuse.Singleton);
+        container.Register<IRegisterExchangeOperationUseCase, RegisterExchangeOperationUseCase>(Reuse.Singleton);
+
         container.Register<ExchangeViewModel>(Reuse.Transient);
         container.Register<RegisterOperationViewModel>(Reuse.Transient);
         container.Register<ConfirmationOperationViewModel>(Reuse.Transient);
+        container.Register<ExchangeOperationsViewModel>(Reuse.Transient);
 
         ServiceLocator = container;
     }

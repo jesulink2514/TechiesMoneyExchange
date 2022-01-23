@@ -47,12 +47,9 @@
         }
 
         public DraftExchangeRequest CreateExchangeRequestFor(ExchangeOperation type, decimal sendingAmount)
-        {
-            var amountYouRecieve = CalculateRecievingAmount(type, sendingAmount);
-
+        {            
             var exchangeOperation = new DraftExchangeRequest(this,
                sendingAmount,
-               amountYouRecieve,
                type);
 
             return exchangeOperation;

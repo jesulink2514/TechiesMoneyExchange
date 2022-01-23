@@ -2,111 +2,90 @@
 using System.Windows.Input;
 using TechiesMoneyExchange.Core.Infrastructure.Navigation;
 using TechiesMoneyExchange.Core.ViewModels;
-using TechiesMoneyExchange.Infrastructure.ExternalServices;
 using TechiesMoneyExchange.Model;
+using TechiesMoneyExchange.Core.UseCases;
 
 namespace TechiesMoneyExchange.ViewModels
 {
-    public class ExchangeViewModel : INotifyPropertyChanged, INavigationAware
+    public class ExchangeViewModel : INotifyPropertyChanged, INavigationAware, 
+        IDefaultExchangeContext, 
+        IApplyNewExchangedAmountContext
     {
-        private readonly IExchangeRateService _exchangeRateService;
+        private readonly IGetDefaultExchangeUseCase _getDefaultExchangeUseCase;
+        private readonly IGetLatestExchangeRateUseCase _getLastestExchangeRateUseCase;
+        private readonly IApplyNewExchangedAmountUseCase _applyNewExchangedAmountUseCase;
         private readonly INavigationService _navigationService;
 
         public ExchangeViewModel(
-            IExchangeRateService exchangeRateService,
+            IGetDefaultExchangeUseCase getDefaultExchangeUseCase,
+            IGetLatestExchangeRateUseCase getLastestExchangeRateUseCase,
+            IApplyNewExchangedAmountUseCase applyNewExchangedAmountUseCase,
             INavigationService navigationService)
         {
-            _exchangeRateService = exchangeRateService;
+            
+            _getDefaultExchangeUseCase = getDefaultExchangeUseCase;
+            _getLastestExchangeRateUseCase = getLastestExchangeRateUseCase;
+            _applyNewExchangedAmountUseCase = applyNewExchangedAmountUseCase;
             _navigationService = navigationService;
+
             SwitchCommand = new Command(OnSwitchExecute);
             StartCommand = new Command(OnStartExecute);
         }
-
-        private PublishedExchangeRate exchangeRate;
+        private static Currency EmptyCurrency = new Currency();
+        public PublishedExchangeRate ExchangeRate { get;private set; }
         
         public decimal AmountYouPay { get; set; }
         public decimal AmountYouRecieve { get; set; }
-        public decimal BuyingRate { get; private set;}        
-        public decimal SellingRate { get;private set;}
-        public Currency SendingCurrency { get;private set; }
-        public Currency RecievingCurrency { get;private set;}
-        public Currency MainCurrency { get;private set;}
-        public Currency BaseCurrency { get; private set; }
+        public decimal BuyingRate => ExchangeRate?.BuyingRate ?? 0;    
+        public decimal SellingRate => ExchangeRate?.SellingRate ?? 0;
+        public Currency MainCurrency => ExchangeRate?.Currency ?? EmptyCurrency;
+        public Currency BaseCurrency => ExchangeRate?.BaseCurrency ?? EmptyCurrency;
+        
         public bool IsBuying { get; set; }
-
+        public Currency SendingCurrency { get; set; }
+        public Currency RecievingCurrency { get; set;}
+        
         public bool IsLoading { get; private set; }
 
         public ICommand SwitchCommand { get;private set;}
         public ICommand StartCommand { get;private set;}
-
-        public const int DECIMAL_PLACES = 2;
-        public const decimal PRECISION_TOLERANCE = 0.01m;
+        
         public async void OnNavigatedTo(IReadOnlyDictionary<string, object> navigationParameters)
         {
             IsLoading = true;
 
-            exchangeRate = await _exchangeRateService.GetCurrentExchangeRate();
-            
+            ExchangeRate = await _getLastestExchangeRateUseCase.Execute();
+            await _getDefaultExchangeUseCase.Execute(this);
+
             IsLoading = false;
-
-            
-            IsBuying = true; //by-default
-
-            BuyingRate = exchangeRate.BuyingRate;
-            SellingRate = exchangeRate.SellingRate;
-            MainCurrency = exchangeRate.Currency;
-            BaseCurrency = exchangeRate.BaseCurrency;
-
-            SendingCurrency = exchangeRate.BaseCurrency;
-            RecievingCurrency = exchangeRate.Currency;
-
-            AmountYouPay = 100;
-            AmountYouRecieve = exchangeRate.CalculateRecievingAmount(ExchangeOperation.Buy, AmountYouPay);
         }
 
         private void OnAmountYouPayChanged()
         {
-            var oldValue = AmountYouRecieve;
-
-            var newValue = exchangeRate.CalculateRecievingAmount(
-                IsBuying ? ExchangeOperation.Buy: ExchangeOperation.Sell, 
-                AmountYouPay);
-
-            if(Math.Abs(oldValue  - newValue) > PRECISION_TOLERANCE)
-            {
-                AmountYouRecieve = newValue;
-            }
+            _applyNewExchangedAmountUseCase.ExecuteForAmountYouRecieve(this);
         }
 
         private void OnAmountYouRecieveChanged()
         {
-            var oldValue = AmountYouPay;
-
-            var newValue = exchangeRate.CalculateSendingAmount(IsBuying ? ExchangeOperation.Buy : ExchangeOperation.Sell,
-                AmountYouRecieve);
-
-            if(Math.Abs(oldValue - newValue) > PRECISION_TOLERANCE)
-            {
-                AmountYouPay = newValue;
-            }
+            _applyNewExchangedAmountUseCase.ExecuteForAmountYouPay(this);
         }
 
         private void OnSwitchExecute(object obj)
         {
             var buyingSelling = !IsBuying;
 
-            SendingCurrency     = buyingSelling ? exchangeRate.BaseCurrency : exchangeRate.Currency;
-            RecievingCurrency   = buyingSelling ? exchangeRate.Currency     : exchangeRate.BaseCurrency;
+            SendingCurrency     = buyingSelling ? ExchangeRate.BaseCurrency : ExchangeRate.Currency;
+            RecievingCurrency   = buyingSelling ? ExchangeRate.Currency     : ExchangeRate.BaseCurrency;
 
             IsBuying = buyingSelling;
 
-            OnAmountYouPayChanged();
+            _applyNewExchangedAmountUseCase.ExecuteForAmountYouRecieve(this);
         }
 
         private async void OnStartExecute(object obj)
         {
             var opType = IsBuying ? ExchangeOperation.Buy : ExchangeOperation.Sell;
-            var exchangeOperation = exchangeRate.CreateExchangeRequestFor(opType, AmountYouPay);
+            var exchangeOperation = ExchangeRate.CreateExchangeRequestFor(opType, AmountYouPay);
 
             var parameters = new Dictionary<string, object>
             {

@@ -1,77 +1,85 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
 using TechiesMoneyExchange.Core.Infrastructure.Navigation;
+using TechiesMoneyExchange.Core.UseCases;
 using TechiesMoneyExchange.Core.ViewModels;
 using TechiesMoneyExchange.Infrastructure.ExternalServices;
 using TechiesMoneyExchange.Model;
 
 namespace TechiesMoneyExchange.ViewModels
 {
-    public class RegisterOperationViewModel : INotifyPropertyChanged, INavigationAware
+    public class RegisterOperationViewModel : INotifyPropertyChanged, INavigationAware, IRegisterExchangeOperationContext
     {
-        public decimal SendingAmount { get; private set; }
-        public decimal RecievingAmount { get; private set; }
-        public Currency SendingCurrency { get; private set; }
-        public Currency RecievingCurrency { get; private set; }
-        public Currency BaseCurrency { get; private set; }
-        public decimal ExchangeRate { get; set; }
-        public bool IsBuying { get; set; }
-
+        private static Currency EmptyCurrency = new Currency();
+        
+        
+        public decimal SendingAmount => ExchangeOperation?.SendingAmount ?? 0;
+        
+        
+        public decimal RecievingAmount => ExchangeOperation?.RecievingAmount ?? 0;
+        
+        
+        public Currency SendingCurrency => ExchangeOperation == null? EmptyCurrency :
+            (ExchangeOperation?.OperationType == Model.ExchangeOperation.Buy ? ExchangeOperation.ExchangeRate.BaseCurrency : ExchangeOperation.ExchangeRate.Currency);
+        
+        
+        public Currency RecievingCurrency => ExchangeOperation == null ? EmptyCurrency :
+            (ExchangeOperation?.OperationType == Model.ExchangeOperation.Buy ? ExchangeOperation.ExchangeRate.Currency : ExchangeOperation.ExchangeRate.BaseCurrency);
+        
+        
+        public Currency BaseCurrency => ExchangeOperation == null ? EmptyCurrency :
+            (ExchangeOperation?.ExchangeRate?.BaseCurrency ?? EmptyCurrency);
+        
+        
+        public decimal ExchangeRate => ExchangeOperation == null ? 0:
+            (IsBuying ? ExchangeOperation.ExchangeRate.BuyingRate : ExchangeOperation.ExchangeRate.SellingRate);
+        
+        
+        public bool IsBuying => ExchangeOperation == null ? false :
+            (ExchangeOperation?.OperationType == Model.ExchangeOperation.Buy);
+        
+        public PublishedExchangeRate PublishedExchangeRate { get; private set; }
         public BankAccount SendingAccount { get; set; }
         public BankAccount RecievingAccount { get; set; }
 
-        public ICommand ChangeSendingAccountCommand { get;private set;}
+        public ICommand ChangeSendingAccountCommand { get; private set; }
         public ICommand ChangeRecievingAccountCommand { get; private set; }
 
-        public ICommand RegisterCommand { get;private set; }
+        public ICommand RegisterCommand { get; private set; }
         public ICommand GoBackCommand { get; private set; }
         public bool IsLoading { get; private set; }
 
-
-        private DraftExchangeRequest exchangeOperation;
+        public DraftExchangeRequest ExchangeOperation { get;private set; }
 
         private readonly INavigationService _navigationService;
+        private readonly IRegisterExchangeOperationUseCase _registerExchangeOperationUseCase;
         private readonly IBankAccountService _bankAccountService;
-        private readonly IExchangeRateService _exchangeRateService;
+
 
         public RegisterOperationViewModel(
+            IRegisterExchangeOperationUseCase registerExchangeOperationUseCase,
             INavigationService navigationService,
-            IBankAccountService bankAccountService,
-            IExchangeRateService exchangeRateService)
+            IBankAccountService bankAccountService)
         {
             _navigationService = navigationService;
+            _registerExchangeOperationUseCase = registerExchangeOperationUseCase;
             _bankAccountService = bankAccountService;
-            _exchangeRateService = exchangeRateService;
 
             GoBackCommand = new Command(OnGoBack);
             RegisterCommand = new Command(OnRegisterExecute);
         }
         public async void OnNavigatedTo(IReadOnlyDictionary<string, object> navigationParameters)
-        {            
+        {
             IsLoading = true;
-            
-            if (navigationParameters.ContainsKey("operation") && 
+
+            if (navigationParameters.ContainsKey("operation") &&
                 navigationParameters["operation"] is DraftExchangeRequest operation)
             {
-                exchangeOperation = operation;
+                ExchangeOperation = operation;                                
+                PublishedExchangeRate = ExchangeOperation.ExchangeRate;
 
-                SendingAmount = exchangeOperation.SendingAmount;
-                RecievingAmount =  exchangeOperation.RecievingAmount;
-                BaseCurrency = exchangeOperation.ExchangeRate.BaseCurrency;
-                SendingCurrency = exchangeOperation.OperationType == ExchangeOperation.Buy ?
-                    exchangeOperation.ExchangeRate.BaseCurrency: exchangeOperation.ExchangeRate.Currency;
-                RecievingCurrency = exchangeOperation.OperationType == ExchangeOperation.Buy ?
-                    exchangeOperation.ExchangeRate.Currency : exchangeOperation.ExchangeRate.BaseCurrency;
-                
-                IsBuying = exchangeOperation.OperationType == ExchangeOperation.Buy;
-
-                ExchangeRate = IsBuying ? 
-                    exchangeOperation.ExchangeRate.BuyingRate: 
-                    exchangeOperation.ExchangeRate.SellingRate;
-
-                
                 RecievingAccount = await _bankAccountService.GetDefaultBankAccountFor(RecievingCurrency);
-                SendingAccount   = await _bankAccountService.GetDefaultBankAccountFor(SendingCurrency);
+                SendingAccount = await _bankAccountService.GetDefaultBankAccountFor(SendingCurrency);
             }
 
             IsLoading = false;
@@ -85,22 +93,9 @@ namespace TechiesMoneyExchange.ViewModels
         {
             IsLoading = true;
 
-            var exchangeRequest = new ExchangeOperationRequest(
-                exchangeOperation.ExchangeRate,
-                SendingAmount,
-                RecievingAmount,
-                exchangeOperation.OperationType,
-                SendingAccount,
-                RecievingAccount);
-
-           var result = await _exchangeRateService.RegisterOperation(exchangeRequest);
+            await _registerExchangeOperationUseCase.Execute(this);
 
             IsLoading = false;
-
-            await _navigationService.NavigateTo(Pages.ConfirmationExchange, new Dictionary<string, object>
-            {
-                { "operation", result }
-            });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -4,13 +4,12 @@
     {
         public DraftExchangeRequest(
             PublishedExchangeRate exchangeRate, 
-            decimal sendingAmount, 
-            decimal recievingAmount, 
+            decimal sendingAmount,             
             ExchangeOperation operationType)
         {
             ExchangeRate = exchangeRate;
             SendingAmount = sendingAmount;
-            RecievingAmount = recievingAmount;
+            RecievingAmount = exchangeRate.CalculateRecievingAmount(operationType,SendingAmount);
             OperationType = operationType;
         }
         public PublishedExchangeRate ExchangeRate { get; }
