@@ -25,6 +25,23 @@
 
             <conv:NegatedConverter x:Key="NegatedConverter"/>
 
+            <Style TargetType="Label" x:Key="TitleLabel">
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="FontSize" Value="20"/>
+            </Style>
+            <Style TargetType="Label" x:Key="TitleCaption">
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="FontSize" Value="18"/>
+            </Style>
+
+
+            <conv:StringFormatConverter x:Key="OperationNoConverter" Format="PE-{0}"/>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

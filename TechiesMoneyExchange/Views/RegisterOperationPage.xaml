@@ -4,27 +4,6 @@
              x:Class="TechiesMoneyExchange.Views.RegisterOperationPage"
              Title="Register your operation"             
              BackgroundColor="White">
-
-    <ContentPage.Resources>
-        <ResourceDictionary>
-
-            <Style TargetType="Label" x:Key="TitleLabel">
-                <Setter Property="VerticalOptions" Value="Center"/>
-                <Setter Property="HorizontalTextAlignment" Value="Center"/>
-                <Setter Property="FontAttributes" Value="Bold"/>
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="FontSize" Value="20"/>
-            </Style>
-            <Style TargetType="Label" x:Key="TitleCaption">
-                <Setter Property="VerticalOptions" Value="Center"/>
-                <Setter Property="HorizontalTextAlignment" Value="Center"/>
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="FontSize" Value="18"/>
-            </Style>
-            
-        </ResourceDictionary>
-    </ContentPage.Resources>
-    
     <ScrollView>
         <Grid RowSpacing="25" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
               Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">

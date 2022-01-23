@@ -6,26 +6,32 @@
     <Page.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="OperationTemplate">
-                <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="Auto,Auto" HorizontalOptions="FillAndExpand" Padding="20">
-                    <Label Text="You send" Style="{StaticResource TitleCaption}"/>
+                <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="Auto,Auto,Auto" HorizontalOptions="FillAndExpand" Padding="20"
+                      Margin="10" Background="LightGray">
 
-                    <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center">
-                        <Label Text="{Binding SendingCurrency.Symbol}" Style="{StaticResource TitleLabel}"/>
+                    <Label Text="{Binding OperationNo,Converter={StaticResource OperationNoConverter}}"
+                           Style="{StaticResource TitleCaption}" FontAttributes="Bold"/>
+
+                    <Label Text="You send" Style="{StaticResource TitleCaption}" GridLayout.Row="1"
+                           GridLayout.Column="0" HorizontalTextAlignment="Center"/>
+
+                    <HorizontalStackLayout Grid.Row="2" HorizontalOptions="Center">
+                        <Label Text="{Binding SendingAccount.Currency.Symbol}" Style="{StaticResource TitleLabel}"/>
                         <Label Text="{Binding SendingAmount}" GridLayout.Column="0" Style="{StaticResource TitleLabel}"/>
                     </HorizontalStackLayout>
 
 
-                    <Frame GridLayout.Column="1" CornerRadius="25" WidthRequest="50" HeightRequest="50"
+                    <Frame GridLayout.Column="1" GridLayout.Row="1" CornerRadius="25" WidthRequest="50" HeightRequest="50"
                            
                             Background="{StaticResource PrimaryColor}">
                         <Image Source="sync.png" HeightRequest="35" WidthRequest="35"
                                HorizontalOptions="Center" VerticalOptions="Center"/>
                     </Frame>
 
-                    <Label Text="You recieve" Style="{StaticResource TitleCaption}" GridLayout.Column="2"/>
+                    <Label Text="You recieve" Style="{StaticResource TitleCaption}" GridLayout.Row="1" GridLayout.Column="2"/>
 
-                    <HorizontalStackLayout Grid.Row="1" GridLayout.Column="2" HorizontalOptions="Center">
-                        <Label Text="{Binding RecievingCurrency.Symbol}" Style="{StaticResource TitleLabel}"/>
+                    <HorizontalStackLayout Grid.Row="2" GridLayout.Column="2" HorizontalOptions="Center">
+                        <Label Text="{Binding RecievingAccount.Currency.Symbol}" Style="{StaticResource TitleLabel}"/>
                         <Label Text="{Binding RecievingAmount}" Style="{StaticResource TitleLabel}"/>
                     </HorizontalStackLayout>
 
