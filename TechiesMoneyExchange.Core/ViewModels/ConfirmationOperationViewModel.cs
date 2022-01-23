@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
+using TechiesMoneyExchange.Core.Infrastructure.ExternalServices;
 using TechiesMoneyExchange.Core.Infrastructure.Navigation;
-using TechiesMoneyExchange.Infrastructure.ExternalServices;
 using TechiesMoneyExchange.Model;
 
 namespace TechiesMoneyExchange.Core.ViewModels

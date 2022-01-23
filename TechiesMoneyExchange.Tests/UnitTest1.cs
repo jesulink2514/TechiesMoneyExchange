@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
+using TechiesMoneyExchange.Core.Infrastructure.ExternalServices;
 using Xunit;
-using TechiesMoneyExchange.Infrastructure.ExternalServices;
 
 namespace TechiesMoneyExchange.Tests
 {

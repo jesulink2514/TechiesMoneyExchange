@@ -1,6 +1,6 @@
 ﻿using TechiesMoneyExchange.Model;
 
-namespace TechiesMoneyExchange.Infrastructure.ExternalServices
+namespace TechiesMoneyExchange.Core.Infrastructure.ExternalServices
 {
     public interface IBankAccountService
     {

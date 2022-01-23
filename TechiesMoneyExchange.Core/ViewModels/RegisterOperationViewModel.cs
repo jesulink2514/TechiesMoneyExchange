@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
+using TechiesMoneyExchange.Core.Infrastructure.ExternalServices;
+using TechiesMoneyExchange.Core.Infrastructure.Integration;
+using TechiesMoneyExchange.Core.Infrastructure.Integration.Events;
 using TechiesMoneyExchange.Core.Infrastructure.Navigation;
 using TechiesMoneyExchange.Core.ViewModels;
-using TechiesMoneyExchange.Infrastructure.ExternalServices;
 using TechiesMoneyExchange.Model;
 
 namespace TechiesMoneyExchange.ViewModels
@@ -33,15 +35,18 @@ namespace TechiesMoneyExchange.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IBankAccountService _bankAccountService;
         private readonly IExchangeRateService _exchangeRateService;
+        private readonly IEventAggregator _eventAggregator;
 
         public RegisterOperationViewModel(
             INavigationService navigationService,
             IBankAccountService bankAccountService,
-            IExchangeRateService exchangeRateService)
+            IExchangeRateService exchangeRateService,
+            IEventAggregator eventAggregator)
         {
             _navigationService = navigationService;
             _bankAccountService = bankAccountService;
             _exchangeRateService = exchangeRateService;
+            _eventAggregator = eventAggregator;
 
             GoBackCommand = new Command(OnGoBack);
             RegisterCommand = new Command(OnRegisterExecute);
@@ -101,6 +106,8 @@ namespace TechiesMoneyExchange.ViewModels
             {
                 { "operation", result }
             });
+
+            _eventAggregator.PostMessage(new ExchangeRequestRegistered(result));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

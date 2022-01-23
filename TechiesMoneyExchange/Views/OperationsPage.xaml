@@ -3,9 +3,37 @@
              x:Class="TechiesMoneyExchange.Views.OperationsPage"
              Title="OperationsPage"
              BackgroundColor="White">
-    <StackLayout>
-        <Label Text="Welcome to .NET MAUI!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-    </StackLayout>
+    <Page.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="OperationTemplate">
+                <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="Auto,Auto" HorizontalOptions="FillAndExpand" Padding="20">
+                    <Label Text="You send" Style="{StaticResource TitleCaption}"/>
+
+                    <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center">
+                        <Label Text="{Binding SendingCurrency.Symbol}" Style="{StaticResource TitleLabel}"/>
+                        <Label Text="{Binding SendingAmount}" GridLayout.Column="0" Style="{StaticResource TitleLabel}"/>
+                    </HorizontalStackLayout>
+
+
+                    <Frame GridLayout.Column="1" CornerRadius="25" WidthRequest="50" HeightRequest="50"
+                           
+                            Background="{StaticResource PrimaryColor}">
+                        <Image Source="sync.png" HeightRequest="35" WidthRequest="35"
+                               HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Frame>
+
+                    <Label Text="You recieve" Style="{StaticResource TitleCaption}" GridLayout.Column="2"/>
+
+                    <HorizontalStackLayout Grid.Row="1" GridLayout.Column="2" HorizontalOptions="Center">
+                        <Label Text="{Binding RecievingCurrency.Symbol}" Style="{StaticResource TitleLabel}"/>
+                        <Label Text="{Binding RecievingAmount}" Style="{StaticResource TitleLabel}"/>
+                    </HorizontalStackLayout>
+
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
+    
+    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Operations}" Spacing="15"
+                BindableLayout.ItemTemplate="{StaticResource OperationTemplate}"/>
 </ContentPage>

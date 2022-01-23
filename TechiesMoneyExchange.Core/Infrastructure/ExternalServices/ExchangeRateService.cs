@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TechiesMoneyExchange.Model;
+﻿using TechiesMoneyExchange.Model;
 
-namespace TechiesMoneyExchange.Infrastructure.ExternalServices
+namespace TechiesMoneyExchange.Core.Infrastructure.ExternalServices
 {
     public class ExchangeRateService : IExchangeRateService
     {
@@ -51,6 +46,7 @@ namespace TechiesMoneyExchange.Infrastructure.ExternalServices
                 BankAccountType.Savings);
         }
 
+        private readonly List<ExchangeRequest> _operations = new();
         public async Task<ExchangeRequest> RegisterOperation(ExchangeOperationRequest request)
         {
             await Task.Delay(2500);
@@ -68,10 +64,19 @@ namespace TechiesMoneyExchange.Infrastructure.ExternalServices
 
                 request.SendingAccount,
                 request.RecievingAccount,
-                DateTime.UtcNow
+                DateTime.UtcNow,
+                ExchangeOperationStatus.Pending
                 );
 
+            _operations.Add(result);
+
             return result;
+        }
+
+        public async Task<ExchangeRequest[]> GetLast7daysOperations()
+        {
+            await Task.Delay(1000);
+            return _operations.OrderByDescending(x=>x.CreationTimeUTC).ToArray();
         }
     }
 }
