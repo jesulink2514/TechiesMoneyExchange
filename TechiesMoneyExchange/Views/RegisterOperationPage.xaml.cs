@@ -3,6 +3,7 @@ using Microsoft.Maui;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Xaml;
 using TechiesMoneyExchange.Core.Infrastructure.Navigation;
+using TechiesMoneyExchange.Infrastructure.ExternalServices;
 using TechiesMoneyExchange.ViewModels;
 
 namespace TechiesMoneyExchange.Views
@@ -11,7 +12,8 @@ namespace TechiesMoneyExchange.Views
 	{
 		public RegisterOperationPage()
 		{
-			InitializeComponent();			
+			InitializeComponent();
+			BindingContext = new RegisterOperationViewModel(new NavigationService(),new BankAccountService(),new ExchangeRateService());
 		}	
 	}
 }

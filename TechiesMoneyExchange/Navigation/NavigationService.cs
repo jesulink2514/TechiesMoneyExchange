@@ -59,11 +59,11 @@ namespace TechiesMoneyExchange.Core.Infrastructure.Navigation
                     break;
             }
 
-            if (PageToViewModelMapping.ContainsKey(page))
-            {
-                var resolvedVm = App.ServiceLocator.Resolve(PageToViewModelMapping[page], DryIoc.IfUnresolved.ReturnDefault);
-                pageToNavigate.BindingContext = resolvedVm;
-            }
+            //if (PageToViewModelMapping.ContainsKey(page))
+            //{
+            //    var resolvedVm = App.ServiceLocator.Resolve(PageToViewModelMapping[page], DryIoc.IfUnresolved.ReturnDefault);
+            //    pageToNavigate.BindingContext = resolvedVm;
+            //}
 
             return pageToNavigate;
         }

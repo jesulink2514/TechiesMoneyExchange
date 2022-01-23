@@ -1,5 +1,6 @@
 using TechiesMoneyExchange.Core.Infrastructure.Navigation;
 using TechiesMoneyExchange.Core.ViewModels;
+using TechiesMoneyExchange.Infrastructure.ExternalServices;
 
 namespace TechiesMoneyExchange
 {
@@ -7,7 +8,8 @@ namespace TechiesMoneyExchange
 	{
 		public ConfirmationOperationPage()
 		{
-			InitializeComponent();			
+			InitializeComponent();
+			BindingContext = new ConfirmationOperationViewModel(new NavigationService(),new ExchangeRateService());
 		}
 	}
 }

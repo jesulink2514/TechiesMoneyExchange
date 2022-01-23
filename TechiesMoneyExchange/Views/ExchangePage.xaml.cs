@@ -10,6 +10,7 @@ public partial class ExchangePage : ContentPage
 	public ExchangePage()
 	{
 		InitializeComponent();
+		BindingContext = new ExchangeViewModel(new ExchangeRateService(),new NavigationService());
 	}
 }
 
