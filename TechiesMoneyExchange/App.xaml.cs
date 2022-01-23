@@ -30,7 +30,7 @@ public partial class App : Application
         if (page.BindingContext is INavigationAware vm)
         {
             vm.OnNavigatedTo(new Dictionary<string, object>());
-        }
+        }        
     }
 
     private static void ConfigureServices()

@@ -30,7 +30,6 @@ namespace TechiesMoneyExchange.Core.UseCases
 
             var result = await _exchangeRateService.RegisterOperation(exchangeRequest);
 
-
             await _navigationService.NavigateTo(Pages.ConfirmationExchange, new Dictionary<string, object>
             {
                 { "operation", result }
