@@ -13,6 +13,7 @@
             RecievingAccount = recievingAccount;            
         }
         public BankAccount SendingAccount { get; }
-        public BankAccount RecievingAccount { get; }       
+        public BankAccount RecievingAccount { get; }      
+        public bool IsUsingValidExchangeRate => ExchangeRate.IsStillValid;
     }
 }

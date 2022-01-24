@@ -54,5 +54,6 @@
 
             return exchangeOperation;
         }
+        public bool IsStillValid => ((RequestedDateUTC + Validity) - DateTime.UtcNow ) > TimeSpan.Zero;
     }
 }
